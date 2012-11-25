@@ -156,12 +156,6 @@ public class DrawingPanel extends JPanel implements MouseListener,
 		for (Person f : faculty) {
 			f.draw(g2);
 		}
-		
-//		if (this.drawDrag) {
-//			g2.drawRect(this.lastX, this.lastY,
-//					Math.abs(this.dragX - this.lastX),
-//					Math.abs(this.dragY - this.lastY));
-//		}
 
 		// Translate used to make sure scale is centered
 		// g2.translate(w/2, h/2);
