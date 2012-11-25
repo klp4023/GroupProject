@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 
 /**
  * A particular kind of building where administrative work is performed.
@@ -7,7 +8,12 @@ import java.awt.Graphics;
  * @author Brian Walker
  * 
  */
-public class AdministrativeBuilding extends Building {
+public class AdministrativeBuilding extends Building implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4862433509946649743L;
 
 	/**
 	 * The constructor saves the upper and lower points of the rectangle.

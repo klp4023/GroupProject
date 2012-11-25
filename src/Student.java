@@ -1,4 +1,5 @@
 import java.awt.Graphics;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -9,7 +10,12 @@ import java.util.Calendar;
  * @author Brian Walker
  * 
  */
-public class Student extends Person {
+public class Student extends Person implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8499428356567414067L;
 
 	/**
 	 * Call the parent constructor.
@@ -101,9 +107,9 @@ public class Student extends Person {
 			
 			//get all students
 			ArrayList<Person> students = new ArrayList<Person>();
-			for (int i = 0; i < DrawingPanel.persons.size(); i++) {
-				if (DrawingPanel.persons.get(i) instanceof Student) {
-					students.add((Person) DrawingPanel.persons
+			for (int i = 0; i < DrawingPanel.students.size(); i++) {
+				if (DrawingPanel.students.get(i) instanceof Student) {
+					students.add((Person) DrawingPanel.students
 							.get(i));
 				}
 			}
@@ -184,9 +190,9 @@ public class Student extends Person {
 			
 			//get all students
 			ArrayList<Person> students = new ArrayList<Person>();
-			for (int i = 0; i < DrawingPanel.persons.size(); i++) {
-				if (DrawingPanel.persons.get(i) instanceof Student) {
-					students.add((Person) DrawingPanel.persons
+			for (int i = 0; i < DrawingPanel.students.size(); i++) {
+				if (DrawingPanel.students.get(i) instanceof Student) {
+					students.add((Person) DrawingPanel.students
 							.get(i));
 				}
 			}
@@ -197,8 +203,8 @@ public class Student extends Person {
 				int random  = (int) (athleticFields.size() * Math.random());
 				int randomPerson = (int) (students.size() * Math.random());
 				int randomPerson2 = (int) (students.size() * Math.random());
-				Person person1 = DrawingPanel.persons.get(randomPerson);
-				Person person2 = DrawingPanel.persons.get(randomPerson2);
+				Person person1 = DrawingPanel.students.get(randomPerson);
+				Person person2 = DrawingPanel.students.get(randomPerson2);
 				destinationX = library.get(ran).getUpperX();
 				destinationY = library.get(ran).getUpperY();
 				

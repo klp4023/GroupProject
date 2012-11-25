@@ -1,6 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.io.Serializable;
 
 /**
  * A building is essentially a rectangle.
@@ -8,7 +8,7 @@ import java.awt.Graphics2D;
  * @author Brian Walker
  * 
  */
-public class Building {
+public class Building implements Serializable{
 
 	protected int upperX;
 	protected int upperY;

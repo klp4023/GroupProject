@@ -1,15 +1,12 @@
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.AffineTransform;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
+import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -30,33 +28,32 @@ import javax.swing.event.ChangeListener;
  * 
  */
 public class DrawingPanel extends JPanel implements MouseListener,
-MouseMotionListener {
+		MouseMotionListener {
 
 	private int lastX = 0;
 	private int lastY = 0;
 
 	public static ArrayList<Building> buildings;
-	public static ArrayList<Person> persons;
+	public static ArrayList<Person> students;
 	public static ArrayList<Person> faculty;
 
-	public static javax.swing.Timer timer;
+	public static Timer timer;
 	public static JSlider sliderZoom;
 	Calendar calendar;
 	public static double scale = 0.5;
 	public static int MAX_HEIGHT = 600;
 	public static int MAX_WIDTH = 900;
 	public static double value = 10;
-	
+
 	static final int FPS_MIN = 1;
 	static final int FPS_MAX = 10;
 	static final int FPS_INIT = 5;
 	static JPanel controlTimerPanel;
-	
+
 	ImageIcon sadIcon;
 	ImageIcon happyIcon;
 	ImageIcon noStudentsIcon;
 	JRadioButton emotionButton;
-	
 
 	/**
 	 * Sets the size, adds a border, and the mouse listeners.
@@ -66,33 +63,32 @@ MouseMotionListener {
 	 * @param pers
 	 *            The list of all the persons.
 	 * @param fac
-	 * 			  The list of all the faculty.
+	 *            The list of all the faculty.
 	 */
-	public DrawingPanel(ArrayList<Building> builds, ArrayList<Person> pers, ArrayList<Person> fac) {
+	public DrawingPanel(ArrayList<Building> builds, ArrayList<Person> pers,
+			ArrayList<Person> fac) {
 		buildings = builds;
-		persons = pers;
+		students = pers;
 		faculty = fac;
 
-		//slider zoomer
-		sliderZoom = new JSlider(1,5,5);
+		// slider zoomer
+		sliderZoom = new JSlider(1, 5, 5);
 		sliderZoom.addChangeListener(new SliderZoomListener());
 		sliderZoom.setMajorTickSpacing(4);
 		sliderZoom.setMinorTickSpacing(4);
 		sliderZoom.setPaintTicks(true);
 		sliderZoom.setPaintLabels(true);
-		
+
 		add(sliderZoom);
-		
-		
 
 		addMouseListener(this);
 		addMouseMotionListener(this);
 
 		calendar = Calendar.getInstance();
 
-		timer = new javax.swing.Timer(30, new TimerListener());
+		timer = new Timer(30, new TimerListener());
 		timer.start();
-		
+
 		controlTimerPanel = new JPanel();
 		controlTimerPanel.setBorder(BorderFactory.createTitledBorder(""));
 
@@ -100,20 +96,16 @@ MouseMotionListener {
 		JButton stopButton = new JButton("Stop Timer");
 		startButton.addActionListener(new StartListener());
 		stopButton.addActionListener(new StopListener());
-		
-	
+
 		sadIcon = new ImageIcon("sadFace.jpg");
 		happyIcon = new ImageIcon("happyFace.jpg");
 		noStudentsIcon = new ImageIcon("noStudents.jpg");
 		emotionButton = new JRadioButton();
-		
 
 		controlTimerPanel.add(startButton);
 		controlTimerPanel.add(stopButton);
 		controlTimerPanel.add(sliderZoom);
 		controlTimerPanel.add(emotionButton);
-		
-		
 
 		JSlider framesPerSecond = new JSlider(JSlider.HORIZONTAL, FPS_MIN,
 				FPS_MAX, FPS_INIT);
@@ -137,50 +129,47 @@ MouseMotionListener {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-	
 		Graphics2D g2 = (Graphics2D) g;
 
-		
-        int w = 900;
-        int h = 600;
-        
-        // Translate used to make sure scale is centered
-       // g2.translate(w/2, h/2);
-    	
-       // System.err.println(value);
-       // AffineTransform backup = g2.getTransform();
-        g2.scale(value, value);
-        g2.drawImage(SimU.backgroundCampus.getImage(), 0,0,SimU.backgroundCampus.getIconWidth(),
-	    		 SimU.backgroundCampus.getIconHeight(),this);
-        //super.paint(g);
-       // g2.translate(-w/2, -h/2);
-        
-		
-		System.out.println("building size: " + buildings.size());
-		// These do nothing because Building.draw() takes a Graphic object and you are passing a 
-		// Graphic2D object
+		int w = 900;
+		int h = 600;
+
+		// Translate used to make sure scale is centered
+		// g2.translate(w/2, h/2);
+
+		// System.err.println(value);
+		// AffineTransform backup = g2.getTransform();
+		g2.scale(value, value);
+		g2.drawImage(SimU.backgroundCampus.getImage(), 0, 0,
+				SimU.backgroundCampus.getIconWidth(),
+				SimU.backgroundCampus.getIconHeight(), this);
+		// super.paint(g);
+		// g2.translate(-w/2, -h/2);
+
 		for (Building b : buildings) {
 			b.draw(g2);
 		}
-		for (Person p : persons) {
+		for (Person p : students) {
 			p.draw(g2);
 		}
 		for (Person f : faculty) {
 			f.draw(g2);
 		}
-		
+
 		// Translate used to make sure scale is centered
-        //g2.translate(w/2, h/2);
-        g2.scale(1.0/(value), 1.0/(value));  // Scale back to normal to draw the date
-        //g2.translate(-w/2, -h/2);
-       // g2.setTransform(backup);
+		// g2.translate(w/2, h/2);
+		g2.scale(1.0 / (value), 1.0 / (value)); // Scale back to normal to draw
+												// the date
+		// g2.translate(-w/2, -h/2);
+		// g2.setTransform(backup);
 
 		SimpleDateFormat dateFormatter = new SimpleDateFormat(
 				"E, y-M-d 'at' h:m:s a z");
 		String dateAndTime = dateFormatter.format(calendar.getTime());
 		g2.drawString(dateAndTime, 200, 50);
-		
-	     
+
+		updateHappiness();
+
 	}
 
 	/**
@@ -245,8 +234,8 @@ MouseMotionListener {
 	 *            The mouse event.
 	 */
 	public void mousePressed(MouseEvent theMouseEvent) {
-		lastX = (int)(theMouseEvent.getX()/value);
-		lastY = (int)(theMouseEvent.getY()/value);
+		lastX = (int) (theMouseEvent.getX() / value);
+		lastY = (int) (theMouseEvent.getY() / value);
 	}
 
 	/**
@@ -265,8 +254,8 @@ MouseMotionListener {
 	 */
 	public void mouseReleased(MouseEvent theMouseEvent) {
 
-		int x = (int)(theMouseEvent.getX()/value);
-		int y = (int)(theMouseEvent.getY()/value);
+		int x = (int) (theMouseEvent.getX() / value);
+		int y = (int) (theMouseEvent.getY() / value);
 
 		if (x < lastX) { // swap
 			int temp = x;
@@ -286,15 +275,13 @@ MouseMotionListener {
 			Person student = null;
 			Person faculty2 = null;
 
-
-
 			if (ControlPanel.drawingTool == ControlPanel.academicBuilding) {
 				building = new AcademicBuilding(lastX, lastY, x, y);
 			} else if (ControlPanel.drawingTool == ControlPanel.library) {
 				building = new Library(lastX, lastY, x, y);
 			} else if (ControlPanel.drawingTool == ControlPanel.student) {
 				student = new Student(x, y);
-			} else if (ControlPanel.drawingTool == ControlPanel.faculty){
+			} else if (ControlPanel.drawingTool == ControlPanel.faculty) {
 				faculty2 = new Faculty(x, y);
 			} else if (ControlPanel.drawingTool == ControlPanel.residenceHalls) {
 				building = new ResidenceHall(lastX, lastY, x, y);
@@ -314,24 +301,21 @@ MouseMotionListener {
 				building = new AthleticFields(lastX, lastY, x, y);
 			} else if (ControlPanel.drawingTool == ControlPanel.sidewalks) {
 				building = new Sidewalks(lastX, lastY, x, y);
-			} 
-
+			}
 
 			if (student != null) {
-				persons.add(student);
+				students.add(student);
 				SimU.studentCounter++;
 			}
 
-			if (faculty2 != null){
+			if (faculty2 != null) {
 				faculty.add(faculty2);
 				SimU.facultyCounter++;
 			}
 
-
-			if (building != null && !overlap(lastX,lastY,x,y)) {
+			if (building != null && !overlap(lastX, lastY, x, y)) {
 
 				buildings.add(building);
-				System.out.println("adding building to array");
 
 				// recalculate area
 				addArea(building);
@@ -339,9 +323,6 @@ MouseMotionListener {
 			}
 
 		}
-
-
-
 
 		else { // right mouse, so delete whatever is under the mouse
 			for (int i = 0; i < buildings.size(); i++) {
@@ -357,58 +338,61 @@ MouseMotionListener {
 			}
 
 		}
-	//	if(persons.size()<5 || persons.size()>11){
-		
-//		double studentFacultyRatio = 0;
-//		studentFacultyRatio = (faculty.size() / persons.size());
-//		double oneThird = (1/3);
-		
-		
-		if (persons.size() == 0){
-			emotionButton.setIcon(noStudentsIcon);
-		}
-		
-		else if(faculty.size() >= persons.size() || persons.size() < 4 || persons.size() > 20){
-			//persons.remove(0);
-			System.out.println("Sad");
-			 emotionButton.setIcon(sadIcon);
-		}
-		else{
-			System.out.println("Happy");
-			emotionButton.setIcon(happyIcon);
-	
-			
-		}
+		// if(persons.size()<5 || persons.size()>11){
+
+		// double studentFacultyRatio = 0;
+		// studentFacultyRatio = (faculty.size() / persons.size());
+		// double oneThird = (1/3);
+
+		updateHappiness();
 		repaint();
 	}
-	
+
+	public void updateHappiness() {
+		if (students.size() == 0) {
+			emotionButton.setIcon(noStudentsIcon);
+		}
+
+		else if (faculty.size() >= students.size() || students.size() < 4
+				|| students.size() > 20) {
+			// persons.remove(0);
+			System.out.println("Sad");
+			emotionButton.setIcon(sadIcon);
+		} else {
+			System.out.println("Happy");
+			emotionButton.setIcon(happyIcon);
+
+		}
+	}
+
 	/**
 	 * 
 	 * Determines if 2 Buildings intersect each other.
 	 * 
 	 * @param lastX
-	 * 		lastX of Rectangle
+	 *            lastX of Rectangle
 	 * @param lastY
-	 * 		lastY of Rectangle
+	 *            lastY of Rectangle
 	 * @param x
-	 * 		x of Rectangle
+	 *            x of Rectangle
 	 * @param y
-	 * 		y of Rectangle
-	 * @return
-	 * 		Boolean based on intersection of rectangles.
+	 *            y of Rectangle
+	 * @return Boolean based on intersection of rectangles.
 	 */
-	public static boolean overlap(int lastX, int lastY, int x, int y){
-		Rectangle r = new Rectangle(lastX, lastY, (x-lastX), (y-lastY));
+	public static boolean overlap(int lastX, int lastY, int x, int y) {
+		Rectangle r = new Rectangle(lastX, lastY, (x - lastX), (y - lastY));
 		Rectangle sidewalk1 = new Rectangle(415, 0, 70, 650);
 		Rectangle sidewalk2 = new Rectangle(0, 265, 950, 60);
 		for (int i = 0; i < buildings.size(); i++) {
 			Building b = buildings.get(i);
-			Rectangle existing = new Rectangle(b.getUpperX(), b.getUpperY(), b.width(), b.height());
-			if (r.intersects(existing) || r.intersects(sidewalk1) || r.intersects(sidewalk2)) {
+			Rectangle existing = new Rectangle(b.getUpperX(), b.getUpperY(),
+					b.width(), b.height());
+			if (r.intersects(existing) || r.intersects(sidewalk1)
+					|| r.intersects(sidewalk2)) {
 				return true;
 			}
 		}
-		if (r.intersects(sidewalk1) || r.intersects(sidewalk2)){
+		if (r.intersects(sidewalk1) || r.intersects(sidewalk2)) {
 			return true;
 		}
 		return false;
@@ -472,7 +456,7 @@ MouseMotionListener {
 		 */
 		public void actionPerformed(ActionEvent theTimerEvent) {
 			calendar.add(Calendar.MINUTE, 1);
-			for (Person p : persons) {
+			for (Person p : students) {
 				p.update(calendar);
 			}
 			for (Person p : faculty) {
@@ -483,28 +467,30 @@ MouseMotionListener {
 		}
 
 	}
-	public class SliderZoomListener implements ChangeListener{
+
+	public class SliderZoomListener implements ChangeListener {
 		/**
 		 * State Changed for slider.
 		 * 
 		 * @param event
-		 * 		changes speed of time
+		 *            changes speed of time
 		 */
-		public void stateChanged(ChangeEvent event){
+		public void stateChanged(ChangeEvent event) {
 
-		value = sliderZoom.getValue();
-//		value = value;
-//		Dimension width = drawing.getPreferredSize();
-//		width.setSize(value*16, value*9);
-//		setPreferredSize(new Dimension(value*9, value*6));
-		setPreferredSize(new Dimension((int) (value*900), (int)(value*600)));
-		
-		repaint();
-		revalidate();
-		
-		
+			value = sliderZoom.getValue();
+			// value = value;
+			// Dimension width = drawing.getPreferredSize();
+			// width.setSize(value*16, value*9);
+			// setPreferredSize(new Dimension(value*9, value*6));
+			setPreferredSize(new Dimension((int) (value * 900),
+					(int) (value * 600)));
+
+			repaint();
+			revalidate();
+
 		}
 	}
+
 	public class SliderListener implements ChangeListener {
 		public void stateChanged(ChangeEvent e) {
 			JSlider source = (JSlider) e.getSource();
@@ -549,6 +535,14 @@ MouseMotionListener {
 
 		}
 
+	}
+
+	public void setCalendar(Calendar c) {
+		this.calendar = c;
+	}
+
+	public Calendar getCalendar() {
+		return this.calendar;
 	}
 
 }

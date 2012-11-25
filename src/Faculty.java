@@ -1,4 +1,5 @@
 import java.awt.Graphics;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -9,7 +10,12 @@ import java.util.Calendar;
  * @author Brian Walker
  * 
  */
-public class Faculty extends Person {
+public class Faculty extends Person implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6076709783275444403L;
 
 	/**
 	 * Call the parent constructor.

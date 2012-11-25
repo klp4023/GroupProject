@@ -1,4 +1,5 @@
 import java.awt.Graphics;
+import java.io.Serializable;
 import java.util.Calendar;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Calendar;
  * 
  * @author Brian Walker
  */
-public class Person {
+public class Person implements Serializable{
 
 	protected int x;
 	protected int y;
