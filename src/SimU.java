@@ -111,6 +111,7 @@ public class SimU extends JFrame implements ActionListener {
 		.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane
 		.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setSize(5, 5);
 		// drawing.add(scrollPane);
 
 		window.add(scrollPane, BorderLayout.CENTER);

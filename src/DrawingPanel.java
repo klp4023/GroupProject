@@ -55,10 +55,6 @@ public class DrawingPanel extends JPanel implements MouseListener,
 	ImageIcon noStudentsIcon;
 	JRadioButton emotionButton;
 
-	// box values
-	private int dragX = 0;
-	private int dragY = 0;
-
 	/**
 	 * Sets the size, adds a border, and the mouse listeners.
 	 * 
@@ -71,6 +67,7 @@ public class DrawingPanel extends JPanel implements MouseListener,
 	 */
 	public DrawingPanel(ArrayList<Building> builds, ArrayList<Person> pers,
 			ArrayList<Person> fac) {
+		this.setPreferredSize(new Dimension((int) (value * 900),(int) (value * 600)));
 		buildings = builds;
 		students = pers;
 		faculty = fac;
@@ -149,9 +146,6 @@ public class DrawingPanel extends JPanel implements MouseListener,
 				SimU.backgroundCampus.getIconHeight(), this);
 		// super.paint(g);
 		// g2.translate(-w/2, -h/2);
-		
-		// this will draw a box of where the picture is going to be as you drag the mouse
-		//g2.drawRect(this.lastX, this.lastY, Math.abs(this.dragX - this.lastX), Math.abs(this.dragY - this.lastY));
 
 		for (Building b : buildings) {
 			b.draw(g2);
@@ -162,6 +156,12 @@ public class DrawingPanel extends JPanel implements MouseListener,
 		for (Person f : faculty) {
 			f.draw(g2);
 		}
+		
+//		if (this.drawDrag) {
+//			g2.drawRect(this.lastX, this.lastY,
+//					Math.abs(this.dragX - this.lastX),
+//					Math.abs(this.dragY - this.lastY));
+//		}
 
 		// Translate used to make sure scale is centered
 		// g2.translate(w/2, h/2);
@@ -188,15 +188,6 @@ public class DrawingPanel extends JPanel implements MouseListener,
 	public void mouseDragged(MouseEvent theMouseEvent) {
 		/* For now, this is left blank on purpose. */
 		// No content.
-//		Graphics g = this.getGraphics();
-//		Graphics2D g2 = (Graphics2D) g;
-//		int x = (int) (theMouseEvent.getX() / value);
-//		int y = (int) (theMouseEvent.getY() / value);
-//		int width = Math.abs(this.lastX - x);
-//		int height = Math.abs(this.lastY - y);
-//		g2.drawRect(this.lastX, this.lastY, width, height);
-		this.dragX = theMouseEvent.getX();
-		this.dragY = theMouseEvent.getY();
 	}
 
 	/**
