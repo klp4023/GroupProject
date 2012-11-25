@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 
 /**
  * A particular kind of building where classes are taught.
@@ -7,7 +8,12 @@ import java.awt.Graphics;
  * @author Brian Walker
  * 
  */
-public class AcademicBuilding extends Building {
+public class AcademicBuilding extends Building implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3862484312557844910L;
 
 	/**
 	 * The constructor saves the upper and lower points of the rectangle.

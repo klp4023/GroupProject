@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 
 /**
  * A particular kind of building games are played.
@@ -7,7 +8,12 @@ import java.awt.Graphics;
  * @author Brian Walker
  * 
  */
-public class AthleticFields extends Building {
+public class AthleticFields extends Building implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2800733015007014131L;
 
 	/**
 	 * The constructor saves the upper and lower points of the rectangle.

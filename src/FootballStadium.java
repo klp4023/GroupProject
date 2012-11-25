@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 
 /**
  * A particular kind of building where Football is played.
@@ -7,7 +8,12 @@ import java.awt.Graphics;
  * @author Brian Walker
  * 
  */
-public class FootballStadium extends Building {
+public class FootballStadium extends Building implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7401564876773896222L;
 
 	/**
 	 * The constructor saves the upper and lower points of the rectangle.

@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 
 /**
  * A particular kind of building where people play basketball and other sports.
@@ -7,7 +8,12 @@ import java.awt.Graphics;
  * @author Brian Walker
  * 
  */
-public class Gymnasium extends Building {
+public class Gymnasium extends Building implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7856710907202554416L;
 
 	/**
 	 * The constructor saves the upper and lower points of the rectangle.

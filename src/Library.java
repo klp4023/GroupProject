@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 
 /**
  * A particular kind of building where books are stored.
@@ -7,7 +8,12 @@ import java.awt.Graphics;
  * @author Brian Walker
  * 
  */
-public class Library extends Building {
+public class Library extends Building implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8042846148614298488L;
 
 	/**
 	 * The constructor saves the upper and lower points of the rectangle.

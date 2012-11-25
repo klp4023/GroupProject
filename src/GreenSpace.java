@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 
 /**
  * A particular kind of building that's open and green.
@@ -8,7 +9,12 @@ import java.awt.Graphics;
  * @author Brian Walker
  * 
  */
-public class GreenSpace extends Building {
+public class GreenSpace extends Building implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7554883931943584768L;
 
 	/**
 	 * The constructor saves the upper and lower points of the rectangle.

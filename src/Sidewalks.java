@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 
 /**
  * A particular kind of building where people walk.
@@ -7,7 +8,12 @@ import java.awt.Graphics;
  * @author Brian Walker
  * 
  */
-public class Sidewalks extends Building {
+public class Sidewalks extends Building implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3282729240532860021L;
 
 	/**
 	 * The constructor saves the upper and lower points of the rectangle.
